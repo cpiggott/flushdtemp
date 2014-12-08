@@ -18,6 +18,12 @@ Route::get('/', array (
 
 //Could potentially go in the user auth group
 
+Route::get('bathroom/find', array(
+	'as' => 'find-bathroom',
+	'uses' => 'BathroomController@getFindBathroom'
+	)
+);
+
 Route::post('bathroom/find', array (
 		'as' => 'find-bathroom',
 		'uses' => 'BathroomController@findBathroom'
@@ -37,6 +43,12 @@ Route::get('bathroom/rate/{code}', array(
 Route::post('bathroom/rate/newrate', array(
 	'as' => 'rate-bathroom',
 	'uses' => 'BathroomController@postRateBathroom'
+	)
+);
+
+Route::post('/bathroom/filter', array(
+	'as' => 'filter-bathroom',
+	'uses' => 'BathroomController@postFilterBathrooms'
 	)
 );
 

@@ -10,6 +10,8 @@
 	      			<div class="caption">
 						<h3>{{$bathroom->description}}</h3>
 			    		<p>Rating: {{$bathroom->avg_rating}}</p>
+			    		
+
 			    		<!-- <p><a href="/bathroom/view/<?php echo $bathroom->id; ?>" class="btn btn-primary" role="button">View</a> <a href="/bathroom/rate/<?php echo $bathroom->id;?>" class="btn btn-default" role="button">Rate</a></p> -->
 	        		</div>
 	    		</div>

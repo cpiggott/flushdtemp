@@ -20,16 +20,16 @@ class BathroomController extends Controller {
 		// Build the URL
 
 		//uncomment after testing
-		//$req = "https://api.smartystreets.com/street-address/?street={$input1}&city={$input2}&state={$input3}&auth-id={$authId}&auth-token={$authToken}";
-		// GET request and turn into associative array
-		//$result = json_decode(file_get_contents($req),true);
+		$req = "https://api.smartystreets.com/street-address/?street={$input1}&city={$input2}&state={$input3}&auth-id={$authId}&auth-token={$authToken}";
+		//GET request and turn into associative array
+		$result = json_decode(file_get_contents($req),true);
 		
 
-		//$latitude = $result[0]['metadata']['latitude'];
-		//$longitude =  $result[0]['metadata']['longitude'];
+		$latitude = $result[0]['metadata']['latitude'];
+		$longitude =  $result[0]['metadata']['longitude'];
 
-		$latitude = '39.18653';
-		$longitude = '-96.58080';
+		// $latitude = '39.18653';
+		// $longitude = '-96.58080';
 
 //Query database
 		$bathrooms = DB::select(DB::raw("SELECT id, description, concurrency, avg_rating, handicap, lat, lng, ( 3959 * acos( cos( radians('$latitude') ) * cos (radians( lat ) ) * cos( radians(lng ) - radians('$longitude') ) + sin( radians('$latitude') ) * sin( radians ( lat ) ) ) ) AS distance FROM bathrooms HAVING distance < 10 ORDER BY distance") );
@@ -41,6 +41,35 @@ class BathroomController extends Controller {
 		return View::make('bathroom.bathrooms')->with('bathrooms', $bathrooms);
 
 
+	}
+
+	public function postFilterBathrooms(){
+
+		$rating = Input::get('rating');
+		$latitude = '39.18653';
+		$longitude = '-96.58080';
+		$distance = 3;
+
+		$bathrooms = DB::select(DB::raw("SELECT x.id, x.description, x.concurrency, x.avg_rating, x.handicap, x.lat, x.lng, ( 3959 * acos( cos( radians('$latitude') ) * cos (radians( lat ) ) * cos( radians(lng ) - radians('$longitude') ) + sin( radians('$latitude') ) * sin( radians ( lat ) ) ) ) AS distance FROM bathrooms x
+	WHERE x.avg_rating >= '$rating' HAVING distance < '$distance'" ) );
+
+		
+
+		return View::make('bathroom.bathrooms')->with('bathrooms', $bathrooms);
+
+	}
+
+	public function getFindBathroom(){
+		$latitude = '39.18653';
+		$longitude = '-96.58080';
+
+		$bathrooms = DB::select(DB::raw("SELECT id, description, concurrency, avg_rating, handicap, lat, lng, ( 3959 * acos( cos( radians('$latitude') ) * cos (radians( lat ) ) * cos( radians(lng ) - radians('$longitude') ) + sin( radians('$latitude') ) * sin( radians ( lat ) ) ) ) AS distance FROM bathrooms HAVING distance < 10 ORDER BY distance") );
+
+
+//Pass to view to create bathrooms
+
+		//var_dump($bathrooms);
+		return View::make('bathroom.bathrooms')->with('bathrooms', $bathrooms);
 	}
 
 	public function viewBathroom($code){
