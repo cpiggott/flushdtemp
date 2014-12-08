@@ -1,6 +1,8 @@
 @extends('layout')
 
 @section('content')
+<div class="jumbotron text-center">
+   <div class="container">
 	@if(Auth::check())
 	<form action="/bathroom/find" method="post" >
 		<div class="field">
@@ -22,4 +24,6 @@
 	@else
 		Welcome to Flushd, please sign in or create an account above!
 	@endif
+	</div>
+</div>
 @stop
