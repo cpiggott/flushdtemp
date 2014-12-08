@@ -13,15 +13,7 @@
 				color: #999;
 			}
 
-			.welcome {
-				width: 300px;
-				height: 200px;
-				position: absolute;
-				left: 50%;
-				top: 50%;
-				margin-left: -150px;
-				margin-top: -100px;
-			}
+			
 
 			a, a:visited {
 				text-decoration:none;
@@ -32,6 +24,9 @@
 				margin: 16px 0 0 0;
 			}
 		</style>
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 	</head>
 	<body>
 		@include('navigation')

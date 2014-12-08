@@ -16,16 +16,50 @@ Route::get('/', array (
 	'uses' => 'HomeController@home'
 ));
 
+//Could potentially go in the user auth group
+
+Route::post('bathroom/find', array (
+		'as' => 'find-bathroom',
+		'uses' => 'BathroomController@findBathroom'
+));
+
+Route::get('bathroom/view/{code}', array(
+	'as' => 'view-bathroom',
+	'uses' => 'BathroomController@viewBathroom')
+);
+
+Route::get('bathroom/rate/{code}', array(
+	'as' => 'view-bathroom',
+	'uses' => 'BathroomController@getRateBathroom')
+);
+
+
+Route::post('bathroom/rate/newrate', array(
+	'as' => 'rate-bathroom',
+	'uses' => 'BathroomController@postRateBathroom'
+	)
+);
 
 
 
 //After a user has authorized
 Route::group(array('before' => 'auth'), function(){
 
-	Route::get('/map', array (
-		'as' => 'map',
-		'uses' => 'BathroomController@loadMap'
-	));
+	Route::get('bathroom/view/newcomment/{code}', array(
+	'as' => 'new-comment',
+	'uses' => 'CommentController@getNewComment'
+	)
+);
+
+Route::post('bathroom/view/newcomment', array(
+	'as' => 'new-comment-post',
+	'uses' => 'CommentController@postNewComment'
+	)
+);
+
+
+	
+
 
 });
 

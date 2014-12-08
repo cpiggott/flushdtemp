@@ -2,35 +2,77 @@
 
 class BathroomController extends Controller {
 
-	public function loadMap(){
-
-		$doc = domxml_new_doc("1.0");
-		$node = $doc->create_element("markers");
-		$parnode = $doc->append_child($node);
-
-		$bathrooms = DB::table('bathrooms')->get();
+	public function findBathroom(){
 
 
+		$input1 = urlencode(Input::get('address'));
+		$input2 = Input::get('city');
+		$input2 = urlencode($input2 . ",");
+		$input3 = urlencode(Input::get('state'));
 
-		header("Content-type: text/xml");
 
-		// Iterate through the rows, adding XML nodes for each
-		foreach($bathrooms as $bathroom){
-		  // ADD TO XML DOCUMENT NODE
-		  $node = $doc->create_element("marker");
-		  $newnode = $parnode->append_child($node);
+		$authId = urlencode("0647eb4e-76de-43cf-bec3-918b1eba40d2");
+		$authToken = urlencode("7cyazp0m4q1HpKuLm7yB");
+		// Address input
+		// $input1 = urlencode("234 Nichols Hall");
+		// $input2 = urlencode("Manhattan,");
+		// $input3 = urlencode("kansas");
+		// Build the URL
 
-		  $newnode->set_attribute("name", $bathroom->description);
-		  $newnode->set_attribute("address", $bathroom->concurrency);
-		  $newnode->set_attribute("lat", $bathroom->lat );
-		  $newnode->set_attribute("lng", $bathroom->lng);
-		  $newnode->set_attribute("type", $bathroom->handicap);
-		}
+		//uncomment after testing
+		//$req = "https://api.smartystreets.com/street-address/?street={$input1}&city={$input2}&state={$input3}&auth-id={$authId}&auth-token={$authToken}";
+		// GET request and turn into associative array
+		//$result = json_decode(file_get_contents($req),true);
+		
 
-		$xmlfile = $doc->dump_mem();
-		echo $xmlfile;
+		//$latitude = $result[0]['metadata']['latitude'];
+		//$longitude =  $result[0]['metadata']['longitude'];
+
+		$latitude = '39.18653';
+		$longitude = '-96.58080';
+
+//Query database
+		$bathrooms = DB::select(DB::raw("SELECT id, description, concurrency, avg_rating, handicap, lat, lng, ( 3959 * acos( cos( radians('$latitude') ) * cos (radians( lat ) ) * cos( radians(lng ) - radians('$longitude') ) + sin( radians('$latitude') ) * sin( radians ( lat ) ) ) ) AS distance FROM bathrooms HAVING distance < 10 ORDER BY distance") );
+
+
+//Pass to view to create bathrooms
+
+		//var_dump($bathrooms);
+		return View::make('bathroom.bathrooms')->with('bathrooms', $bathrooms);
 
 
 	}
+
+	public function viewBathroom($code){
+
+		 $bathroom = Bathroom::find($code);
+		 return View::make('bathroom.bathroom')->with('bathroom', $bathroom);
+	}
+
+	public function getRateBathroom($code){
+
+		return View::make('bathroom.ratebathroom')->with('code', $code);
+	}
+
+	public function postRateBathroom(){
+		$rating = Input::get('rating');
+		$code = Input::get('code');
+
+		$rating = Rating::create(array(
+			'flush_rating' => $rating,
+			'bathroom_id' => $code
+			)
+		);
+
+		$redirectStringt = 'bathroom/view/' . $code;
+			return Redirect::intended($redirectStringt);
+		
+	}
+
+
+
+	
+
+	
 
 }

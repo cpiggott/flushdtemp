@@ -5,7 +5,7 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class Bathroom extends Eloquent implements UserInterface, RemindableInterface {
+class Wall extends Eloquent implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait;
 
@@ -14,11 +14,16 @@ class Bathroom extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var string
 	 */
-	protected $table = 'bathrooms';
+	protected $table = 'walls';
 
-	protected $fillable = array( 'description', 'concurrency', 'handicap', 'lat', 'lng', 'avg_rating' );
+	protected $fillable = array( 'wall_id', 'bathroom_id');
+
+	protected function bathroom(){
+		return $this->belongsTo('User');
+	}
 
 	
+
 	
 
 }
