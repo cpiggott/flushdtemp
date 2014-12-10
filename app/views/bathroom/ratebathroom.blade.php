@@ -1,6 +1,8 @@
 @extends('layout')
 
 @section('content')
+<br>
+<br>
 
 	<form action="/bathroom/rate/newrate" method="post" >
 
@@ -15,7 +17,7 @@
 		</div>
 
 		<input type="hidden" name="code" value="<?php echo $code;?>" />
-
+<br>
 		<input type="submit" value="Submit">
 		{{ Form::token() }}
 
