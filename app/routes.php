@@ -57,20 +57,28 @@ Route::post('/bathroom/filter', array(
 //After a user has authorized
 Route::group(array('before' => 'auth'), function(){
 
-	Route::get('bathroom/view/newcomment/{code}', array(
-	'as' => 'new-comment',
-	'uses' => 'CommentController@getNewComment'
-	)
-);
+		Route::get('bathroom/view/newcomment/{code}', array(
+		'as' => 'new-comment',
+		'uses' => 'CommentController@getNewComment'
+		)
+	);
 
-Route::post('bathroom/view/newcomment', array(
-	'as' => 'new-comment-post',
-	'uses' => 'CommentController@postNewComment'
-	)
-);
+	Route::post('bathroom/view/newcomment', array(
+		'as' => 'new-comment-post',
+		'uses' => 'CommentController@postNewComment'
+		)
+	);
 
+	Route::get('user/account/{code}', array(
+		'as' => 'new-comment-post',
+		'uses' => 'UserController@viewAccount'
+		)
+	);
 
-	
+	Route::get('bathroom/vote/{code}', array(
+		'as' => 'vote-comment',
+		'uses' => 'BathroomController@vote'));
+
 
 
 });

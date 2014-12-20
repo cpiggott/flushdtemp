@@ -12,7 +12,7 @@
 			    		<p>Rating: {{$bathroom->avg_rating}}</p>
 			    		
 
-			    		<!-- <p><a href="/bathroom/view/<?php echo $bathroom->id; ?>" class="btn btn-primary" role="button">View</a> <a href="/bathroom/rate/<?php echo $bathroom->id;?>" class="btn btn-default" role="button">Rate</a></p> -->
+			    		<p> <a href="/bathroom/rate/<?php echo $bathroom->id;?>" class="btn btn-primary" role="button">Rate</a></p>
 	        		</div>
 	    		</div>
 	  		</div>
@@ -46,7 +46,7 @@
 											<h3>{{$comment->message}}</h3>
 								    		<?php $tempUser = DB::select(DB::raw("SELECT x.user_name, x.id FROM users x, comments y WHERE y.id = '$comment->id' AND y.user_id = x.id" ) ); ?>
 								    		<p>Written by: <a href="/user/account/<?php echo $tempUser[0]->id; ?>">{{$tempUser[0]->user_name}}</a> </p>
-								    		<p>Likes: {{$comment->likes}}</p>
+								    		<p>Likes: {{$comment->likes}} | <a href="/bathroom/vote/<?php echo $comment->id; ?>" class="btn btn-primary" role="button">Vote</a></p>
 						        		</div>
 						    		</div>
 						  		</div>

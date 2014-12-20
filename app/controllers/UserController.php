@@ -78,8 +78,9 @@ class UserController extends BaseController {
 		
 	}
 
-	public function viewProfile(){
-		
+	public function viewAccount($code){
+		$tempUser = User::find($code);
+		return View::make('profile')->with('tempUser', $tempUser);
 	}
 	
 

@@ -98,6 +98,23 @@ class BathroomController extends Controller {
 		
 	}
 
+	public function vote($code){
+		$comments = DB::select(DB::raw("SELECT * FROM comments WHERE id = '$code'"));
+		
+		foreach ($comments as $comment) {
+			
+			DB::table('comments')
+	            ->where('id', $comment->id)
+	            ->update(array('likes' => ($comment->likes + 1)));
+		}
+		
+
+		
+
+  		 return Redirect::to('/bathroom/view/'.$comment->wall_id);
+
+	}
+
 
 
 	
